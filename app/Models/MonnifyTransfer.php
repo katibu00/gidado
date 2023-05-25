@@ -21,6 +21,15 @@ class MonnifyTransfer extends Model
         'payment_status',
         'customer_name',
         'customer_email',
+        'bankCode',
+        'amountPaid',
+        'accountName',
+        'sessionId',
+        'accountNumber',
+        'bankName',
+        'name',
+        'email',
+
     ];
     
 }
