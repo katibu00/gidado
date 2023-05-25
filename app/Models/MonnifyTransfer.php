@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MonnifyTransfer extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['bankCode', 'amountPaid', 'accountName', 'sessionId', 'accountNumber'];
+
 }

@@ -8,7 +8,6 @@ use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-
 class MonnifyController extends Controller
 {
     public function getTransfers(Request $request)
@@ -17,13 +16,14 @@ class MonnifyController extends Controller
         $paymentSourceInformation = $payload['eventData']['paymentSourceInformation'][0];
         $amountPaid = $paymentSourceInformation['amountPaid'];
         $accountNumber = $paymentSourceInformation['accountNumber'];
+        $customerEmail = $request->input('eventData.customer.email');
 
-        // Find the ReservedAccount for the specific user
-        $reservedAccount = ReservedAccount::where('customer_email', $paymentSourceInformation['customer']['email'])->first();
+        $reservedAccount = ReservedAccount::where('customer_email', $customerEmail)->first();
 
         if ($reservedAccount) {
             // Retrieve the user's wallet
             $wallet = Wallet::where('user_id', $reservedAccount->user_id)->first();
+            Log::info('Customer email received', ['email' => $customerEmail]);
 
             if ($wallet) {
                 $wallet->balance += $amountPaid;
@@ -42,7 +42,5 @@ class MonnifyController extends Controller
 
         return response('Reserved account or wallet not found', 404);
     }
-
-  
 
 }
