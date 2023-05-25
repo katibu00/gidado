@@ -40,7 +40,7 @@ Route::get('/home', [HomeController::class, 'regular'])->name('regular.home');
 
 Route::post('/get-transfers',  [MonnifyController::class, 'getTransfers']);
 
-Route::post('/webhook',  [MonnifyController::class, 'handleWebhook']);
+Route::post('/webhook',  [MonnifyController::class, 'getTransfers']);
 
 
 
