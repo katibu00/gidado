@@ -23,7 +23,6 @@ class MonnifyController extends Controller
         if ($reservedAccount) {
             // Retrieve the user's wallet
             $wallet = Wallet::where('user_id', $reservedAccount->user_id)->first();
-            Log::info('Customer email received', ['email' => $customerEmail]);
 
             if ($wallet) {
                 $wallet->balance += $payload['eventData']['settlementAmount'];
@@ -33,7 +32,6 @@ class MonnifyController extends Controller
                     'transaction_reference' => $payload['eventData']['transactionReference'],
                     'payment_reference' => $payload['eventData']['paymentReference'],
                     'paid_on' => $payload['eventData']['paidOn'],
-                    'payment_description' => $payload['eventData']['paymentDescription'],
                     'payment_source_information' => json_encode($paymentSourceInformation),
                     'destination_account_information' => json_encode($payload['eventData']['destinationAccountInformation']),
                     'amount_paid' => $amountPaid,
