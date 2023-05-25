@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\Log;
 
 class MonnifyController extends Controller
 {
+
     public function getTransfers(Request $request)
     {
         $payload = $request->all();
         $paymentSourceInformation = $payload['eventData']['paymentSourceInformation'][0];
         $amountPaid = $paymentSourceInformation['amountPaid'];
-        $accountNumber = $paymentSourceInformation['accountNumber'];
-        $customerEmail = $request->input('eventData.customer.email');
+        $customerEmail = $payload['eventData']['customer']['email'];
 
         $reservedAccount = ReservedAccount::where('customer_email', $customerEmail)->first();
 
@@ -26,14 +26,21 @@ class MonnifyController extends Controller
             Log::info('Customer email received', ['email' => $customerEmail]);
 
             if ($wallet) {
-                $wallet->balance += $amountPaid;
+                $wallet->balance += $payload['eventData']['settlementAmount'];
                 $wallet->save();
+
                 MonnifyTransfer::create([
-                    'bankCode' => $paymentSourceInformation['bankCode'],
-                    'amountPaid' => $amountPaid,
-                    'accountName' => $paymentSourceInformation['accountName'],
-                    'sessionId' => $paymentSourceInformation['sessionId'],
-                    'accountNumber' => $accountNumber,
+                    'transaction_reference' => $payload['eventData']['transactionReference'],
+                    'payment_reference' => $payload['eventData']['paymentReference'],
+                    'paid_on' => $payload['eventData']['paidOn'],
+                    'payment_description' => $payload['eventData']['paymentDescription'],
+                    'payment_source_information' => json_encode($paymentSourceInformation),
+                    'destination_account_information' => json_encode($payload['eventData']['destinationAccountInformation']),
+                    'amount_paid' => $amountPaid,
+                    'settlement_amount' => $payload['eventData']['settlementAmount'],
+                    'payment_status' => $payload['eventData']['paymentStatus'],
+                    'customer_name' => $payload['eventData']['customer']['name'],
+                    'customer_email' => $customerEmail,
                 ]);
 
                 return response('Webhook received', 200);

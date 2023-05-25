@@ -13,11 +13,16 @@ return new class extends Migration
     {
         Schema::create('monnify_transfers', function (Blueprint $table) {
             $table->id();
-            $table->string('bankCode')->nullable();
-            $table->decimal('amountPaid', 8, 2)->nullable();
-            $table->string('accountName')->nullable();
-            $table->string('sessionId')->nullable();
-            $table->string('accountNumber')->nullable();
+            $table->string('transaction_reference');
+            $table->string('payment_reference');
+            $table->dateTime('paid_on');
+            $table->json('payment_source_information');
+            $table->json('destination_account_information');
+            $table->decimal('amount_paid', 10, 2);
+            $table->decimal('settlement_amount', 10, 2);
+            $table->string('payment_status');
+            $table->string('customer_name');
+            $table->string('customer_email');
             $table->timestamps();
         });
     }
