@@ -58,7 +58,7 @@
                                         </div>
                                     </form>
                                     <div class="new-account mt-3">
-                                        <p class="text-white">Already have an account? <a class="text-white" href="{{ route('register') }}">Sign in</a></p>
+                                        <p class="text-white">Already have an account? <a class="text-white" href="{{ route('login') }}">Sign in</a></p>
                                     </div>
                                 </div>
                             </div>
