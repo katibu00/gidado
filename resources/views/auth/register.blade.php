@@ -50,6 +50,13 @@
                                             @enderror
                                         </div>
                                         <div class="form-group">
+                                            <label class="mb-1 text-white"><strong>Password</strong> <span class="text-danger"> *</span></label>
+                                            <input type="password" class="form-control" name="password" id="password" placeholder="******">
+                                            @error('password')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
                                             <label class="mb-1 text-white"><strong>Referral Code</strong> <span class="text-muted">(optional)</span></label>
                                             <input type="text" class="form-control" name="referral_code" placeholder="Enter referral code">
                                         </div>
