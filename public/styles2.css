@@ -1,0 +1,459 @@
+/* Reset default margin and padding */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+/* Set default font family and size */
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+
+/* Container styles */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header styles */
+header {
+  background-color: #f8f8f8;
+  padding: 20px;
+}
+
+
+/* Section title styles */
+.section-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Link styles */
+a {
+  color: #337ab7;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Button styles */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #337ab7;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.btn:hover {
+  background-color: #286090;
+}
+
+/* Responsive styles */
+@media (max-width: 767px) {
+  /* Adjust styles for smaller screens */
+  .container {
+    padding: 0 10px;
+  }
+  /* Include any other responsive styles here */
+}
+/* Header styles */
+header {
+  background-color: #ffffff;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+.navbar-nav .nav-item .nav-link.active {
+    color: #00a1b4; /* Replace with your desired color */
+  }
+/* Navbar styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand img {
+  height: 40px;
+}
+
+.navbar-nav .nav-item {
+  margin-right: 15px;
+}
+
+.nav-link {
+  color: #333333;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.nav-link:hover {
+  color: #00a1b4;
+}
+
+/* Toggle button styles */
+.navbar-toggler {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+}
+
+.navbar-toggler-icon {
+  width: 20px;
+  height: 20px;
+  background-image: url("path/to/navbar-toggle-icon.png");
+  background-size: cover;
+}
+
+/* Book Appointment button styles */
+.btn-primary {
+  background-color: #00a1b4;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #008a9d;
+}
+
+
+/* ///////loadder */
+.loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .loader-text {
+    font-size: 24px;
+    font-weight: bold;
+    animation: loaderAnimation 1.5s infinite;
+  }
+  
+  @keyframes loaderAnimation {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+
+
+
+ 
+
+  /* departments */
+
+
+  
+  .section-heading {
+    margin-bottom: 30px;
+  }
+  
+  .section-heading h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .section-heading p {
+    font-size: 16px;
+    color: #777;
+  }
+  
+  
+  @media (max-width: 767px) {
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: -5px;
+    }
+    .col-sm-6 {
+      flex: 0 0 calc(50% - 10px);
+      max-width: calc(50% - 10px);
+      margin: 5px;
+    }
+  }
+  
+
+  
+
+
+
+.section-title {
+  color: #333333;
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+/* ///////////////////// */
+
+
+.account-card {
+    background-color: #00a1b4; /* Change the background color here */
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+
+#account-carousel {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .owl-carousel .owl-item .account-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #00a1b4; 
+   
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .owl-carousel .owl-item .account-card h6 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  .owl-carousel .owl-item .account-card p {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #fff;
+  }
+  
+
+/* Header styles */
+header {
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
+  
+  .whatsapp-btn {
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+}
+
+.whatsapp-btn .btn {
+    width: 100%;
+    border-radius: 20px;
+    text-align: left;
+    background: linear-gradient(to right, #25D366, #128C7E);
+    color: #fff;
+}
+  /* Navbar styles */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar-brand img {
+    height: 40px;
+  }
+  
+  .navbar-nav .nav-item {
+    margin-right: 15px;
+  }
+  
+  .nav-link {
+    color: #333333;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .nav-link:hover {
+    color: #00a1b4;
+  }
+  
+  /* Toggle button styles */
+  .navbar-toggler {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+  }
+  
+  .navbar-toggler-icon {
+    width: 20px;
+    height: 20px;
+    /* Replace "path/to/navbar-toggle-icon.png" with the path to your custom toggle icon */
+    background-image: url("path/to/navbar-toggle-icon.png");
+    background-size: cover;
+  }
+
+  .welcome-section {
+    padding: 120px 0;
+    background-color: #eaeaea;
+   
+}
+
+
+
+/* Styles for Buy Data Quickly card */
+
+
+/* Styles for Recent Transactions table */
+.table {
+  width: 100%;
+}
+
+.table th,
+.table td {
+  text-align: center;
+}
+
+/* Responsive styles for Recent Transactions table on mobile */
+@media (max-width: 767px) {
+  .table-responsive {
+    overflow-x: scroll;
+  }
+}
+
+
+
+/* Footer */
+.footer {
+  background-color: #eaeaea;
+  padding: 40px 0;
+  color: #000;
+}
+
+.footer img {
+  height: 40px;
+  margin-bottom: 20px;
+}
+
+.footer p {
+  margin-bottom: 10px;
+}
+
+.footer h6 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.footer ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+.footer ul li {
+  margin-bottom: 5px;
+}
+
+.footer ul li a {
+  color: #000;
+  text-decoration: none;
+}
+
+.footer ul li a:hover {
+  color: #007bff;
+}
+
+
+/* styles2.css */
+
+.data-section {
+  background-color: #00a1b4;
+  padding: 50px 0;
+  margin-top: -100px;
+}
+
+
+
+
+  
+.card {
+  border: none;
+  /* box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); */
+ 
+  border-radius: 10px;
+}
+
+.card-body {
+  text-align: center;
+  padding: 10px;
+}
+
+.card-img {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  overflow: hidden;
+  margin-bottom: 5px;
+  padding-top: 10px;
+}
+
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+
+.card-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 1px;
+}
+
+.card-text {
+  font-size: 14px;
+  color: #888;
+}
+

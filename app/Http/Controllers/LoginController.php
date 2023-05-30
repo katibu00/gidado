@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Validation\Rule;
-
 
 class LoginController extends Controller
 {
@@ -15,29 +13,34 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-   
- 
     public function login(Request $request)
     {
-        // Validate the form data
         $request->validate([
             'email_or_phone' => 'required',
             'password' => 'required',
         ]);
 
         $credentials = $this->getCredentials($request);
-        $rememberMe = $request->filled('remember');
+        $rememberMe = $request->filled('rememberMe');
 
         try {
             if (Auth::attempt($credentials, $rememberMe)) {
-                return redirect()->route('regular.home');
+                if ($request->ajax()) {
+                    return response()->json(['success' => true, 'redirect_url' => $this->getRedirectUrl()]);
+                } else {
+                    return redirect()->route($this->getRedirectRoute());
+                }
             } else {
                 throw ValidationException::withMessages([
                     'login_error' => 'Invalid credentials.',
                 ]);
             }
         } catch (ValidationException $e) {
-            return redirect()->back()->withErrors($e->errors())->withInput()->with('error_message', 'Invalid credentials.');
+            if ($request->ajax()) {
+                return response()->json(['success' => false, 'errors' => $e->errors()], 422);
+            } else {
+                return redirect()->back()->withErrors($e->errors())->withInput()->with('error_message', 'Invalid credentials.');
+            }
         }
     }
 
@@ -51,7 +54,17 @@ class LoginController extends Controller
         ];
     }
 
+    protected function getRedirectRoute()
+    {
+        $userType = auth()->user()->user_type;
 
+        return $userType === 'admin' ? 'admin.home' : 'regular.home';
+    }
+
+    protected function getRedirectUrl()
+    {
+        return route($this->getRedirectRoute());
+    }
 
     public function logout(Request $request)
     {
@@ -60,8 +73,7 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login'); 
+        return redirect()->route('login');
     }
-
 
 }
