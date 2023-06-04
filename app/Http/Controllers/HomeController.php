@@ -23,4 +23,11 @@ class HomeController extends Controller
 
         return view('home.regular', compact('accounts'));
     }
+
+    public function admin()
+    {
+        return view('home.admin');
+
+    }
+
 }

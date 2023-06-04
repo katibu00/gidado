@@ -90,7 +90,7 @@
         <div class="row justify-content-center align-items-center" style="height: 93vh;">
             <div class="col-md-4">
                 <div class="card">
-                    <div class="card-header">Login</div>
+                    <div class="card-header">Login to your Account</div>
                     <div class="card-body">
                         <form id="login-form">
                             @csrf
@@ -118,6 +118,7 @@
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Login</button>
                         </form>
+                        Don't Have an Account? <a href="{{ route('register') }}">Register Here</a>
                     </div>
                 </div>
             </div>
@@ -133,7 +134,7 @@
                 <a class="nav-link" href="#">How to Fund</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Contact Us</a>
+                <a class="nav-link" href="#">Useful Codes</a>
             </li>
         </ul>
     </nav>

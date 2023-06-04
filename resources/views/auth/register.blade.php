@@ -1,150 +1,243 @@
 <!DOCTYPE html>
-<html lang="en" class="h-100">
+<html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Create an Account - DataLink</title>
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
-    <link href="css/bootstrap-select.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <!-- Toastr CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .form-control {
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+        .navbar {
+            background-color: #343a40;
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff;
+            margin: 0 10px;
+        }
+
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+        }
+
+        .whatsapp-btn .btn {
+            width: 100%;
+            border-radius: 20px;
+            text-align: left;
+            background: linear-gradient(to right, #25D366, #128C7E);
+            color: #fff;
+        }
+
+        .form-group input::placeholder {
+            opacity: 0.7;
+        }
+
+        .form-group input[type="password"] {
+            padding-right: 30px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
 </head>
 
-<body class="h-100">
-    <div class="authincation h-100">
-        <div class="container h-100">
-            <div class="row justify-content-center h-100 align-items-center">
-                <div class="col-md-6">
-                    <div class="authincation-content">
-                        <div class="row no-gutters">
-                            <div class="col-xl-12">
-                                <div class="auth-form">
-                                    <div class="text-center mb-3">
-                                        <a href="#"><img src="images/logo-full.png" alt="DataLink Logo"></a>
-                                    </div>
-                                    <h4 class="text-center mb-4 text-white">Sign up for an account</h4>
-                                    <form action="{{ route('register') }}" method="POST" id="registration-form">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label class="mb-1 text-white"><strong>Full Name</strong><span class="text-danger"> *</span></label>
-                                            <input type="text" class="form-control" name="name" id="full-name" placeholder="Enter your full name">
-                                            @error('full_name')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="mb-1 text-white"><strong>Phone Number</strong><span class="text-danger"> *</span></label>
-                                            <input type="text" class="form-control" name="phone" id="phone-number" placeholder="Enter your phone number">
-                                            @error('phone')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="mb-1 text-white"><strong>Email</strong> <span class="text-muted">(optional)</span></label>
-                                            <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email">
-                                            @error('email')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="mb-1 text-white"><strong>Password</strong> <span class="text-danger"> *</span></label>
-                                            <input type="password" class="form-control" name="password" id="password" placeholder="******">
-                                            @error('password')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="mb-1 text-white"><strong>Referral Code</strong> <span class="text-muted">(optional)</span></label>
-                                            <input type="text" class="form-control" name="referral_code" placeholder="Enter referral code">
-                                        </div>
-                                        <div class="text-center mt-4">
-                                            <button type="submit" class="btn bg-white text-primary btn-block">Sign me up</button>
-                                        </div>
-                                    </form>
-                                    <div class="new-account mt-3">
-                                        <p class="text-white">Already have an account? <a class="text-white" href="{{ route('login') }}">Sign in</a></p>
+<body>
+
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-center" style="height: 93vh;">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">Register New Account</div>
+                    <div class="card-body">
+                        <form id="login-form">
+                            @csrf
+                            <div class="form-group">
+                                <label class="mb-1"><strong>Full Name</strong><span class="text-danger"> *</span></label>
+                                <input type="text" class="form-control" name="name" id="full-name" placeholder="Enter your full name">
+                                @error('full_name')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label class="mb-1"><strong>Phone Number</strong><span class="text-danger"> *</span></label>
+                                <input type="text" class="form-control" name="phone" id="phone-number" placeholder="Enter your phone number">
+                                @error('phone')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label class="mb-1"><strong>Email</strong> <span class="text-muted">(optional)</span></label>
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email">
+                                @error('email')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                           
+                            <div class="form-group">
+                                <label class="mb-1"><strong>Referral Code</strong> <span class="text-muted">(optional)</span></label>
+                                <input type="text" class="form-control" name="referral_code" placeholder="Enter referral code">
+                            </div>
+                            <div class="form-group">
+                                <label class="mb-1"><strong>Password</strong><span class="text-danger"> *</span></label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="password" name="password"
+                                        placeholder="Enter your password">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text password-toggle"
+                                            onclick="togglePasswordVisibility()">
+                                            <i class="fa fa-eye"></i>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        </form>
+                        Don't Have an Account? <a href="{{ route('register') }}">Register Here</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!--**********************************
-    Scripts
-    ***********************************-->
-    <!-- Required vendors -->
-    <script src="js/global.min.js"></script>
-    <script src="js/bootstrap-select.min.js"></script>
-    <script src="js/deznav-init.js"></script>
-    <!-- Toastr JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    
-    <!-- Custom script for form validation -->
+
+    <nav class="navbar navbar-expand navbar-dark">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Services</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">How to Fund</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Useful Codes</a>
+            </li>
+        </ul>
+    </nav>
+
+    <a href="https://api.whatsapp.com/send?phone=YOUR_PHONE_NUMBER" class="whatsapp-btn">
+        <button type="button" class="btn btn-success">
+            <i class="fab fa-whatsapp"></i> Contact Us on WhatsApp
+        </button>
+    </a>
+    <!-- Scripts here -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script>
-        // Function to validate the form
-        function validateForm() {
-            var fullName = document.getElementById("full-name").value.trim();
-            var phoneNumber = document.getElementById("phone-number").value.trim();
-            var email = document.getElementById("email").value.trim();
-            
-            // Check if full name or phone number is empty
-            if (fullName === "" || phoneNumber === "") {
-                showToast("Please fill in all required fields.");
-                return false;
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById("password");
+            var passwordToggle = document.querySelector(".password-toggle");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                passwordToggle.innerHTML = '<i class="fa fa-eye-slash"></i>';
+            } else {
+                passwordInput.type = "password";
+                passwordToggle.innerHTML = '<i class="fa fa-eye"></i>';
             }
-            
-            // Check if email is entered but not valid
-            if (email !== "" && !validateEmail(email)) {
-                showToast("Please enter a valid email address.");
-                return false;
-            }
-            
-            // Check if phone number is not a valid 11-digit Nigerian number
-            if (!validateNigerianPhoneNumber(phoneNumber)) {
-                showToast("Please enter a valid 11-digit Nigerian phone number.");
-                return false;
-            }
-            
-            // Form is valid, continue with submission
-            return true;
         }
-        
-        // Function to display a warning toast message
-        function showToast(message) {
-            toastr.warning(message, "Warning");
-        }
-        
-        // Function to validate email address
-        function validateEmail(email) {
-            // Regular expression for email validation
-            var emailRegex = /^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/;
-            
-            return emailRegex.test(email);
-        }
-        
-        // Function to validate Nigerian phone number (11 digits)
-        function validateNigerianPhoneNumber(phoneNumber) {
-            // Regular expression for Nigerian phone number validation
-            var phoneRegex = /^(?:(\+|0{0,2})234)?(0)?[789]\d{9}$/;
-            
-            return phoneRegex.test(phoneNumber);
-        }
-        
-        // Attach form submit event listener
-        document.getElementById("registration-form").addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevent form submission
-            
-            if (validateForm()) {
-                // Form is valid, proceed with submission
-                this.submit();
-            }
+
+        var passwordInput = document.getElementById("password");
+        passwordInput.addEventListener("focus", function() {
+            var passwordToggle = document.querySelector(".password-toggle");
+            passwordToggle.style.opacity = "1";
+        });
+
+        passwordInput.addEventListener("blur", function() {
+            var passwordToggle = document.querySelector(".password-toggle");
+            passwordToggle.style.opacity = "0.7";
+        });
+
+
+        $(document).ready(function() {
+            $('#login-form').submit(function(event) {
+                event.preventDefault();
+                var submitButton = $(this).find('button[type="submit"]');
+                submitButton.prop('disabled', true).html(
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...'
+                );
+
+                var formData = new FormData(this);
+                $.ajax({
+                    url: '/register',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        submitButton.prop('disabled', false).text('Login');
+
+                        if (response.success) {
+                            toastr.success('Login successful. Redirecting to dashboard...');
+                            setTimeout(function() {
+                                window.location.href = response.redirect_url;
+                            }, 200);
+                        } else {
+                            toastr.error('Invalid credentials.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        submitButton.prop('disabled', false).text('Login');
+
+                        var response = xhr.responseJSON;
+                        if (response && response.errors && response.errors.login_error) {
+                            toastr.warning(response.errors.login_error[0]);
+                        } else if (response && response.message) {
+                            toastr.error(response.message);
+                        } else {
+                            toastr.error('An error occurred. Please try again.');
+                        }
+                    }
+                });
+            });
         });
     </script>
+
+
+
 </body>
+
 </html>
