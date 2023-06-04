@@ -47,7 +47,7 @@ class BuyDataController extends Controller
         }
         if($request->contact == 'new')
         {
-            $number = $request->input('contact');
+            $number = $request->input('number');
         }else
         {
             $number = $request->input('selectedContactNumber');
