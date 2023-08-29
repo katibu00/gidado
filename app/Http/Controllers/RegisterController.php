@@ -1,15 +1,17 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Charges;
 use App\Models\ReservedAccount;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
-
 
     public function index()
     {
@@ -18,69 +20,68 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        // Validate the request data
-        $validatedData = $request->validate([
-            'name' => 'required|string',
-            'phone' => 'required|string|unique:users',
-            'email' => 'nullable|email|unique:users',
-            'referral_code' => 'nullable|string',
-            'password' => 'required|min:6',
-        ]);
-        
-
-
-        $fullName = $validatedData['name'];
-        $firstName = explode(' ', $fullName)[0]; // Extract the first name
-        $randomString = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 4);
-        $username = $firstName . $randomString;
-
-
-       // Create the user account
-        $user = User::create([
-            'name' => $validatedData['name'],
-            'phone' => $validatedData['phone'],
-            'email' => $validatedData['email'],
-            'referral_code' => $validatedData['referral_code'],
-            'username' => $username.$randomString,
-            'password' => Hash::make($validatedData['password']),
-        ]);
+        DB::beginTransaction(); // Start a database transaction
 
         try {
+            // Validate the request data
+            $validatedData = $request->validate([
+                'name' => 'required|string',
+                'phone' => 'required|string|unique:users',
+                'email' => 'required|email|unique:users',
+                'password' => 'required|min:6',
+            ]);
+
+            $fullName = $validatedData['name'];
+            $firstName = explode(' ', $fullName)[0];
+            $randomString = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 4);
+            $username = $firstName . $randomString;
+
+            // Create a user instance
+            $user = new User([
+                'name' => $validatedData['name'],
+                'phone' => $validatedData['phone'],
+                'email' => $validatedData['email'],
+                'username' => $username . $randomString,
+                'password' => Hash::make($validatedData['password']),
+            ]);
+
             // Get the Monnify access token
             $accessToken = $this->getAccessToken();
 
             // Create Monnify reserved account
             $monnifyReservedAccount = $this->createMonnifyReservedAccount($user, $accessToken);
 
-            // Save Monnify reserved account details in the reserved_accounts table
+            // Save user and Monnify account details
+            $user->save();
             ReservedAccount::create([
                 'user_id' => $user->id,
                 'customer_email' => $monnifyReservedAccount->customerEmail,
                 'customer_name' => $monnifyReservedAccount->customerName,
-                'accounts' => json_encode($monnifyReservedAccount->accounts), // Convert the object to JSON string
+                'accounts' => json_encode($monnifyReservedAccount->accounts),
             ]);
 
-            // Create a wallet for the user
+            // Create a wallet with welcome bonus
+            $welcome_bonus = Charges::select('welcome_bonus')->first();
             Wallet::create([
                 'user_id' => $user->id,
-                'balance' => 0, // Set initial balance to 0
+                'balance' => $welcome_bonus->welcome_bonus,
             ]);
 
-            // Return a success response
-            return response()->json(['message' => 'User registered successfully']);
+            DB::commit(); // Commit the transaction
+            return response()->json(['message' => 'User account created successfully']);
         } catch (\Exception $e) {
-            // Handle any exceptions or errors here
+            DB::rollback(); // Rollback the transaction on exception
+            Log::error('Registration Error: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
     private function getAccessToken()
     {
-        // Fetch API key and secret key from configuration or environment variables
-        $apiKey = "MK_TEST_U8HB3APP2Q";
-        $secretKey = "WG3ZRMG3VRXX9QJD25HJBXQY2FFPH363";
+        $monnifyKeys = DB::table('monnify_keys')->first();
+        $apiKey = $monnifyKeys->public_key;
+        $secretKey = $monnifyKeys->secret_key;
 
-        // Encoding Monnify API_KEY and SECRET KEY
         $encodedKey = base64_encode($apiKey . ':' . $secretKey);
 
         $curl = curl_init();
@@ -122,13 +123,14 @@ class RegisterController extends Controller
 
     private function createMonnifyReservedAccount(User $user, $accessToken)
     {
-        // Generate account reference and account name
         $accountReference = uniqid('abc', true);
         $accountName = $user->name;
 
-        // Other required parameters
+        $monnifyKeys = DB::table('monnify_keys')->first();
+        $contractCode = $monnifyKeys->contract_code;
+
         $currencyCode = 'NGN';
-        $contractCode = '5027608904';
+        $contractCode = $contractCode;
         $customerEmail = $user->email;
         $customerName = $user->name;
         $getAllAvailableBanks = true;

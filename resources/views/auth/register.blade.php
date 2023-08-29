@@ -1,242 +1,237 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" class="h-100">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="generator" content="">
+    <title>ExpressData - Mobile Data</title>
 
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
+    <!-- manifest meta -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
-        .card {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="img/favicon180.png" sizes="180x180">
+    <link rel="icon" href="img/favicon32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="img/favicon16.png" sizes="16x16" type="image/png">
 
-        .card-header {
-            background-color: #007bff;
-            color: #fff;
-            text-align: center;
-            font-weight: bold;
-            padding: 10px;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-        }
+    <!-- Material icons-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-        .form-control {
-            border-radius: 5px;
-        }
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
+    <!-- swiper CSS -->
+    <link href="/theme/vendor/swiper/css/swiper.min.css" rel="stylesheet">
 
-        .btn-primary:hover {
-            background-color: #0069d9;
-            border-color: #0062cc;
-        }
+    <!-- Custom styles for this template -->
+    <link href="/theme/css/style.css" rel="stylesheet" id="style">
 
-        .navbar {
-            background-color: #343a40;
-        }
-
-        .navbar-nav .nav-link {
-            color: #fff;
-            margin: 0 10px;
-        }
-
-        .whatsapp-btn {
-            position: fixed;
-            bottom: 70px;
-            right: 20px;
-        }
-
-        .whatsapp-btn .btn {
-            width: 100%;
-            border-radius: 20px;
-            text-align: left;
-            background: linear-gradient(to right, #25D366, #128C7E);
-            color: #fff;
-        }
-
-        .form-group input::placeholder {
-            opacity: 0.7;
-        }
-
-        .form-group input[type="password"] {
-            padding-right: 30px;
-        }
-
-        .password-toggle {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            cursor: pointer;
-        }
-    </style>
 </head>
 
-<body>
-
-    <div class="container-fluid">
-        <div class="row justify-content-center align-items-center" style="height: 93vh;">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">Register New Account</div>
-                    <div class="card-body">
-                        <form id="login-form">
-                            @csrf
-                            <div class="form-group">
-                                <label class="mb-1"><strong>Full Name</strong><span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="name" id="full-name" placeholder="Enter your full name">
-                                @error('full_name')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label class="mb-1"><strong>Phone Number</strong><span class="text-danger"> *</span></label>
-                                <input type="text" class="form-control" name="phone" id="phone-number" placeholder="Enter your phone number">
-                                @error('phone')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label class="mb-1"><strong>Email</strong> <span class="text-muted">(optional)</span></label>
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email">
-                                @error('email')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                           
-                            <div class="form-group">
-                                <label class="mb-1"><strong>Referral Code</strong> <span class="text-muted">(optional)</span></label>
-                                <input type="text" class="form-control" name="referral_code" placeholder="Enter referral code">
-                            </div>
-                            <div class="form-group">
-                                <label class="mb-1"><strong>Password</strong><span class="text-danger"> *</span></label>
-                                <div class="input-group">
-                                    <input type="password" class="form-control" id="password" name="password"
-                                        placeholder="Enter your password">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text password-toggle"
-                                            onclick="togglePasswordVisibility()">
-                                            <i class="fa fa-eye"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-primary btn-block">Register</button>
-                        </form>
-                        Don't Have an Account? <a href="{{ route('register') }}">Register Here</a>
+<body class="body-scroll d-flex flex-column h-100 menu-overlay">
+    <!-- screen loader -->
+    <div class="container-fluid h-100 loader-display">
+        <div class="row h-100">
+            <div class="align-self-center col">
+                <div class="logo-loading">
+                    <div class="icon icon-100 mb-4 rounded-circle">
+                        <img src="img/favicon144.png" alt="" class="w-100">
+                    </div>
+                    <h4 class="text-default">ExpressData</h4>
+                    <p class="text-secondary">Best Data company</p>
+                    <div class="loader-ellipsis">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <nav class="navbar navbar-expand navbar-dark">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">How to Fund</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Useful Codes</a>
-            </li>
-        </ul>
-    </nav>
 
-    <a href="https://api.whatsapp.com/send?phone=YOUR_PHONE_NUMBER" class="whatsapp-btn">
-        <button type="button" class="btn btn-success">
-            <i class="fab fa-whatsapp"></i> Contact Us on WhatsApp
-        </button>
-    </a>
-    <!-- Scripts here -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+
+    <!-- Begin page content -->
+    <form id="register-form">
+        @csrf
+    <main class="flex-shrink-0 main has-footer">
+        <!-- Fixed navbar -->
+        <header class="header">
+            <div class="row">
+                <div class="col-auto px-0">
+                    <button class="menu-btn btn btn-40 btn-link back-btn" type="button">
+                        <span class="material-icons">keyboard_arrow_left</span>
+                    </button>
+                </div>
+                <div class="text-left col align-self-center">
+
+                </div>
+                <div class="ml-auto col-auto align-self-center">
+                    <a href="{{ route('login') }}" class="text-white">
+                        Login
+                    </a>
+                </div>
+            </div>
+        </header>
+
+
+        <div class="container h-100 text-white">
+            <div class="row h-100">
+                <div class="col-12 align-self-center mb-4">
+                    <div class="row justify-content-center">
+                        <div class="col-11 col-sm-7 col-md-6 col-lg-5 col-xl-4">
+                            <h2 class="font-weight-normal mb-5">Create new<br>account with us</h2>
+                            <div class="form-group float-label active">
+                                <input type="text" class="form-control text-white" name="name" id="name">
+                                <label class="form-control-label text-white" for="name">Name</label>
+                            </div>
+                            <div class="form-group float-label active">
+                                <input type="tel" class="form-control text-white" name="phone" id="phone">
+                                <label class="form-control-label text-white" for="phone">Phone Number</label>
+                            </div>
+                            <div class="form-group float-label position-relative">
+                                <input type="email" class="form-control text-white" name="email" id="email">
+                                <label class="form-control-label text-white" for="email">Email</label>
+                            </div>
+                            <div class="form-group float-label position-relative input-group">
+                                <input type="password" class="form-control text-white" id="password" name="password">
+                                <div class="input-group-append">
+                                    <span class="input-group-text password-toggle" onclick="togglePasswordVisibility()">
+                                        <i class="material-icons">visibility_off</i>
+                                    </span>
+                                </div>
+                                <label class="form-control-label text-white">Password</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- footer-->
+    <div class="footer no-bg-shadow py-3">
+        <div class="row justify-content-center">
+            <div class="col">
+                <button type="submit" class="btn btn-default rounded btn-block">Register</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+    <!-- Required jquery and libraries -->
+    <script src="/theme/js/jquery-3.3.1.min.js"></script>
+    <script src="/theme/js/popper.min.js"></script>
+    <script src="/theme/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- cookie js -->
+    <script src="/theme/js/jquery.cookie.js"></script>
+
+    <!-- Swiper slider  js-->
+    <script src="/theme/vendor/swiper/js/swiper.min.js"></script>
+
+    <!-- Customized jquery file  -->
+    <script src="/theme/js/main.js"></script>
+    <script src="/theme/js/color-scheme-demo.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- page level custom script -->
+    <script src="/theme/js/app.js"></script>
     <script>
         function togglePasswordVisibility() {
-            var passwordInput = document.getElementById("password");
-            var passwordToggle = document.querySelector(".password-toggle");
-
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                passwordToggle.innerHTML = '<i class="fa fa-eye-slash"></i>';
+            var passwordField = document.getElementById("password");
+            var passwordToggle = document.querySelector(".password-toggle i");
+            
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                passwordToggle.textContent = "visibility";
             } else {
-                passwordInput.type = "password";
-                passwordToggle.innerHTML = '<i class="fa fa-eye"></i>';
+                passwordField.type = "password";
+                passwordToggle.textContent = "visibility_off";
             }
         }
-
-        var passwordInput = document.getElementById("password");
-        passwordInput.addEventListener("focus", function() {
-            var passwordToggle = document.querySelector(".password-toggle");
-            passwordToggle.style.opacity = "1";
-        });
-
-        passwordInput.addEventListener("blur", function() {
-            var passwordToggle = document.querySelector(".password-toggle");
-            passwordToggle.style.opacity = "0.7";
-        });
-
-
-        $(document).ready(function() {
-            $('#login-form').submit(function(event) {
-                event.preventDefault();
-                var submitButton = $(this).find('button[type="submit"]');
-                submitButton.prop('disabled', true).html(
-                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...'
-                );
-
-                var formData = new FormData(this);
-                $.ajax({
-                    url: '/register',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        submitButton.prop('disabled', false).text('Login');
-
-                        if (response.success) {
-                            toastr.success('Login successful. Redirecting to dashboard...');
-                            setTimeout(function() {
-                                window.location.href = response.redirect_url;
-                            }, 200);
-                        } else {
-                            toastr.error('Invalid credentials.');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        submitButton.prop('disabled', false).text('Login');
-
-                        var response = xhr.responseJSON;
-                        if (response && response.errors && response.errors.login_error) {
-                            toastr.warning(response.errors.login_error[0]);
-                        } else if (response && response.message) {
-                            toastr.error(response.message);
-                        } else {
-                            toastr.error('An error occurred. Please try again.');
-                        }
-                    }
-                });
-            });
-        });
     </script>
 
 
+
+<script>
+    $(document).ready(function() {
+        $('#register-form').submit(function(event) {
+            event.preventDefault();
+            var submitButton = $(this).find('button[type="submit"]');
+            submitButton.prop('disabled', true).html(
+                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Please Wait...'
+            );
+
+            var formData = new FormData(this);
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '/register',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    submitButton.prop('disabled', false).text('Login');
+
+                    if (response.message) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.message
+                        }).then(() => {
+                            window.location.href = '/login';
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    submitButton.prop('disabled', false).text('Login');
+
+                    var response = xhr.responseJSON;
+                    if (response && response.errors) {
+                        var errorMessage = '';
+                        $.each(response.errors, function(field, messages) {
+                            errorMessage += messages[0] + '\n';
+                        });
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Validation Error',
+                            text: errorMessage
+                        });
+                    } else if (response && response.error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.error
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'An error occurred. Please try again.'
+                        });
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+
+    
 
 </body>
 

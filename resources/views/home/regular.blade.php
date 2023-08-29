@@ -2,221 +2,174 @@
 @section('PageTitle', 'Home')
 @section('content')
 
-    <section class="welcome-section" style="margin-top: 20px;">
-        <div class="container">
-            <div class="row">
 
-                <div class="col-md-7 mb-3">
-                    <div class="card">
-                        <div class="card-header">
-                            <marquee>Make a transfer to any of the account numbers below and wait few minutes and refresh
-                                this page</marquee>
-                        </div>
-                        <div class="card-body">
-                            <div class="horizontal-scroll">
+<div class="container mt-3 mb-4 text-center">
+    <h2 class="text-white">&#8358; {{ number_format(auth()->user()->wallet->balance,0) }}</h2>
+    <p class="text-white mb-4">Wallet Balance</p>
+</div>
 
-                                <div id="account-carousel" class="owl-carousel">
-                                    @if (is_array($accounts) && count($accounts) > 0)
-                                        @foreach ($accounts as $account)
-                                            <div class="account-card">
-                                                <h6>{{ $account['bankName'] }}</h6>
-                                                <p>{{ $account['accountNumber'] }}</p>
-                                                <p>{{ $account['accountName'] }}</p>
-                                            </div>
-                                        @endforeach
-                                    @else
-                                        <div class="account-card">
-                                            <h6>No Account Numbers</h6>
-                                            <p></p>
-                                            <p></p>
-                                        </div>
-                                    @endif
+<div class="main-container">
+    <!-- page content start -->
 
-                                </div>
-                            </div>
-                        </div>
+
+    <div class="container mb-4 text-center">
+        <div class="card bg-default-secondary shadow-default">
+            <div class="card-body">
+                <!-- Swiper -->
+                <div class="swiper-container addsendcarousel text-center">
+                    <div class="swiper-wrapper mb-4">
+                        <a href="{{ route('add_money') }}" class="swiper-slide text-white">
+                            <div class="icon icon-50 rounded-circle mb-2 bg-white-light"><span class="material-icons">add</span></div>
+                            <p><small>Add Money</small></p>
+                        </a>
+                        <a href="#" class="swiper-slide text-white">
+                            <div class="icon icon-50 rounded-circle mb-2 bg-white-light"><span class="material-icons">call_made</span></div>
+                            <p><small>Refer</small></p>
+                        </a>
+                        <a href="{{ route('transactions.index') }}" class="swiper-slide text-white">
+                            <div class="icon icon-50 rounded-circle mb-2 bg-white-light"><span class="material-icons">call_received</span></div>
+                            <p><small>History</small></p>
+                        </a>
+                        <a href="{{ route('contacts.index') }}" class="swiper-slide text-white">
+                            <div class="icon icon-50 rounded-circle mb-2 bg-white-light"><span class="material-icons">swap_horiz</span></div>
+                            <p><small>Contacts</small></p>
+                        </a>
+                        <a href="#" class="swiper-slide text-white">
+                            <div class="icon icon-50 rounded-circle mb-2 bg-white-light"><span class="material-icons">class</span></div>
+                            <p><small>Data</small></p>
+                        </a>
+                        <a href="#" class="swiper-slide text-white">
+                            <div class="icon icon-50 rounded-circle mb-2 bg-white-light"><span class="material-icons">receipt</span></div>
+                            <p><small>Airtime</small></p>
+                        </a>
                     </div>
-                </div>
-                <div class="col-md-5 mb-3">
-                    <ul class="list-group mb-2">
-                        <li class="list-group-item">
-                            Your Wallet Balance:
-                            <span class="badge bg-secondary float-end"
-                                style="margin-top: 3px;">&#8358;{{ number_format(auth()->user()->wallet->balance) }}</span>
-                        </li>
-                    </ul>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            Your Bonus Points:
-                            <span class="badge bg-secondary float-end"
-                                style="margin-top: 3px;">{{ number_format(auth()->user()->wallet->balance) }}</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="data-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <h5>Buy Data Quickly</h5>
-                        </div>
-                        <div class="card-body">
-                            <form>
-                                <div class="form-group text-left">
-                                    <label for="network">Network:</label>
-                                    <select class="form-select" id="network">
-                                        <option value=""></option>
-                                        <option value="MTN">MTN</option>
-                                        <option value="AIRTEL">AIRTEL</option>
-                                        <option value="GLO">GLO</option>
-                                        <option value="9MOBILE">9MOBILE</option>
-                                    </select>
-                                </div>
-                                <div class="form-group text-left">
-                                    <label for="contact">Number:</label>
-                                    <select class="form-select" id="contact" name="contact">
-                                    </select>
-                                </div>
-                                <div class="form-group text-left" id="phoneField" style="display: none;">
-                                    <label for="number">Phone Number:</label>
-                                    <input type="text" class="form-control" id="number">
-                                </div>
-                                <div class="form-group text-left">
-                                    <label for="amount">Select Amount:</label>
-                                    <select class="form-select" id="amount">
-                                    </select>
-                                </div>
-                                <div class="form-group text-left">
-                                    <label for="price">Price:</label>
-                                    <input type="text" class="form-control" id="price" disabled>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Buy Data</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Recent Transactions</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Network</th>
-                                            <th>Amount</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>2023-05-28</td>
-                                            <td>Network 1</td>
-                                            <td>1GB</td>
-                                            <td>Successful</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2023-05-27</td>
-                                            <td>Network 2</td>
-                                            <td>500MB</td>
-                                            <td>Failed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2023-05-26</td>
-                                            <td>Network 3</td>
-                                            <td>2GB</td>
-                                            <td>Successful</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Confirmation Modal -->
-    <div id="confirmationModal" class="modal fade" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-confirm">Confirm</button>
-                    <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination"></div>
                 </div>
             </div>
         </div>
     </div>
 
+    {{-- <div class="container mb-4">
+        <div class="card">
+            <div class="card-body text-center ">
+                <div class="row justify-content-equal no-gutters">
+                    <div class="col-4 col-md-2 mb-3">
+                        <a href="#">
+                        <div class="icon icon-50 rounded-circle mb-1 bg-default-light text-default"><span class="material-icons">qr_code_2</span></div>
+                        <p class="text-secondary"><small>Add Funds</small></p></a>
+                    </div>
+                    <div class="col-4 col-md-2 mb-3">
+                        <div class="icon icon-50 rounded-circle mb-1 bg-default-light text-default"><span class="material-icons">swap_horiz</span></div>
+                        <p class="text-secondary"><small>Transfer</small></p>
+                    </div>
+                    <div class="col-4 col-md-2 mb-3">
+                        <div class="icon icon-50 rounded-circle mb-1 bg-default-light text-default"><span class="material-icons">sim_card</span></div>
+                        <p class="text-secondary"><small>Reacharge</small></p>
+                    </div>
+                    <div class="col-4 col-md-2 mb-3">
+                        <div class="icon icon-50 rounded-circle mb-1 bg-default-light text-default"><span class="material-icons">account_circle</span></div>
+                        <p class="text-secondary"><small>Send</small></p>
+                    </div>
+                    <div class="col-4 col-md-2 mb-3">
+                        <div class="icon icon-50 rounded-circle mb-1 bg-default-light text-default"><span class="material-icons">receipt</span></div>
+                        <p class="text-secondary"><small>Bill</small></p>
+                    </div>
+                    <div class="col-4 col-md-2 mb-3">
+                        <div class="icon icon-50 rounded-circle mb-1 bg-default-light text-default"><span class="material-icons">wb_incandescent</span></div>
+                        <p class="text-secondary"><small>Electricity</small></p>
+                    </div>
+                </div>
+                <button class="btn btn-sm btn-outline-secondary rounded" id="more-expand-btn">Show more <span class="ml-2 small material-icons">expand_more</span></button>
+                <div class="row justify-content-equal no-gutters" id="more-expand">
+                    <div class="col-4 col-md-2">
+                        <div class="icon icon-50 rounded-circle mb-1 bg-default-light text-default"><span class="material-icons">beach_access</span></div>
+                        <p class="text-secondary"><small>Insurance</small></p>
+                    </div>
+                    <div class="col-4 col-md-2">
+                        <div class="icon icon-50 rounded-circle mb-1 bg-default-light text-default"><span class="material-icons">drive_eta</span></div>
+                        <p class="text-secondary"><small>Car</small></p>
+                    </div>
+                    <div class="col-4 col-md-2">
+                        <div class="icon icon-50 rounded-circle mb-1 bg-default-light text-default"><span class="material-icons">flight</span></div>
+                        <p class="text-secondary"><small>Flight</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+
+    <div class="container mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="subtitle mb-0">
+                    <div class="avatar avatar-40 bg-default-light text-default rounded mr-2"><span class="material-icons vm">lock</span></div>
+                    Buy Data
+                </h6>
+            </div>
+            <form>
+            <div class="card-body">
+              
+                <div class="form-group float-label active">
+                    <select class="form-control" id="network">
+                        <option value=""></option>
+                        <option value="MTN">MTN</option>
+                        <option value="AIRTEL">AIRTEL</option>
+                        <option value="GLO">GLO</option>
+                        <option value="9MOBILE">9MOBILE</option>
+                     </select>
+                     <label class="form-control-label">Network</label>
+                 </div>
+
+                <div class="form-group float-label active">
+                    <select class="form-control" id="contact" name="contact">
+                        <option value=""></option>
+                     </select>
+                     <label class="form-control-label">Number</label>
+                 </div>
+
+                <div class="form-group float-label active" id="phoneField" style="display: none;">
+                    <input type="text" class="form-control" id="number">
+                    <label class="form-control-label">Phone Number</label>
+                </div>
+
+                <div class="form-group float-label active">
+                    <select class="form-control" id="amount" name="amount">
+                        <option value=""></option>
+                     </select>
+                     <label class="form-control-label">Amount</label>
+                 </div>
+
+                 <div class="form-group float-label active">
+                    <input type="text" class="form-control" id="price" disabled>
+                    <label class="form-control-label">Price</label>
+                </div>
+               
+               
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-block btn-default rounded" type="submit" >Buy Data</button>
+            </div>
+            <form>
+        </div>
+    </div>
+
+
+   
+</div>
+
+   
+
 
 @endsection
 @section('js')
-    <script>
-        $(document).ready(function() {
-            $('.owl-carousel').owlCarousel({
-                loop: true,
-                margin: 15,
-                nav: true,
-                dots: true,
-                navText: ["<i class='fas fa-chevron-left'></i>", "<i class='fas fa-chevron-right'></i>"],
-                mouseDrag: true,
-                touchDrag: true,
-                responsive: {
-                    0: {
-                        items: 1,
-                        stagePadding: 40,
-                        center: true
-                    },
-                    768: {
-                        items: 2
-                    },
-                    992: {
-                        items: 3
-                    }
-                }
-            });
-
-        });
-    </script>
-
+   
 
     <!-- SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
 
     <!-- SweetAlert JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
-
-    <!-- Owl Carousel JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('.hero-carousel').owlCarousel({
-                items: 1,
-                loop: true,
-                autoplay: true,
-                autoplayTimeout: 5000,
-                autoplayHoverPause: true,
-                dots: false,
-                nav: false
-            });
-            $('.carousel').carousel({
-                interval: 3000, // Adjust the interval as needed (in milliseconds)
-                pause: false, // Set to true if you want the auto-scrolling to pause on hover
-                ride: 'carousel' // Enable the automatic cycling of the carousel
-            });
-        });
-    </script>
-
 
     <script>
         $(document).ready(function() {
@@ -237,7 +190,19 @@
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/js-loading-overlay@1.1.0/dist/js-loading-overlay.min.js"></script>
-
+    @if ($popUp)
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Notification',
+                    html: '{{ $popUp->body }}',
+                    confirmButtonText: 'Close',
+                    allowOutsideClick: false,
+                });
+            });
+        </script>
+    @endif
     <script>
         $(document).ready(function() {
 

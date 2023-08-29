@@ -1,45 +1,79 @@
 @extends('layout.app')
-@section('PageTitle','Contacts')
+@section('PageTitle', 'Contacts')
 @section('content')
-    <div class="container welcome-section">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        Contacts
-                        <button class="btn btn-sm btn-primary float-right" data-toggle="modal"
-                            data-target="#contactModal">Add</button>
-                    </div>
 
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
+
+    <div class="main-container">
+        <div class="container">
+            <div class="card mb-4">
+                <div class="card-header border-0 bg-none">
+                    <div class="row">
+                        <div class="col align-self-center">
+                            <h6 class="mb-0">Beneficiaries</h6>
+                        </div>
+                        <div class="col-auto align-self-center">
+                            <button class="btn btn-default btn-sm rounded" data-toggle="modal" data-target="#contactModal">
+                                + Add New Beneficiary
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th class="all font-weight-medium">ID</th>
+                                <th class="min-tablet font-weight-medium">Contact</th>
+                                <th class="font-weight-medium text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (count($contacts) === 0)
                                 <tr>
-                                    <th>S/N</th>
-                                    <th>Name</th>
-                                    <th>Number</th>
-                                    <th>Network</th>
-                                    <th>Actions</th>
+                                    <td colspan="5" class="text-center">No contacts available</td>
                                 </tr>
-                            </thead>
-                            <tbody id="contactsTableBody">
+                            @else
                                 @foreach ($contacts as $key => $contact)
                                     <tr>
-                                        <td>{{ $key+1 }}</td>
-                                        <td class="text-left">{{ $contact->name }}</td>
-                                        <td>{{ $contact->number }}</td>
-                                        <td>{{ $contact->network }}</td>
+                                        <td>{{ $key + 1 }}</td>
                                         <td>
-                                            <button class="btn btn-sm btn-primary edit-contact"
-                                                data-id="{{ $contact->id }}" data-name="{{ $contact->name }}" data-number="{{ $contact->number }}" data-network="{{ $contact->network }}">Edit</button>
-                                            <button class="btn btn-sm btn-danger delete-contact"
-                                                data-id="{{ $contact->id }}" data-name="{{ $contact->name }}">Delete</button>
+                                            <div class="media">
+                                                <figure class="mb-0 avatar avatar-40 mr-2 bg-default rounded-circle">
+                                                    {{ $contact->network }}
+                                                </figure>
+                                                <div class="media-body">
+                                                    <p class="mb-0">{{ $contact->name }}</p>
+                                                    <p class="text-secondary small">{{ $contact->number }},
+                                                        {{ $contact->network }}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-transparent dropdown-toggle" type="button"
+                                                    id="actionDropdown" data-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                    <span class="fas fa-ellipsis-v"></span>
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="actionDropdown">
+                                                    <a href="#" class="dropdown-item edit-contact"
+                                                        data-id="{{ $contact->id }}" data-name="{{ $contact->name }}"
+                                                        data-number="{{ $contact->number }}"
+                                                        data-network="{{ $contact->network }}">Edit</a>
+                                                    <a href="#" class="dropdown-item delete-contact"
+                                                        data-id="{{ $contact->id }}"
+                                                        data-name="{{ $contact->name }}">Delete</button>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endif
+                        </tbody>
+                    </table>
+
+
                 </div>
             </div>
         </div>
@@ -59,18 +93,17 @@
                 <form id="contactForm">
                     <div class="modal-body">
                         <ul id="error_list"></ul>
-                        <div class="form-group">
-                            <label for="name">Name:</label>
+
+                        <div class="form-group float-label active">
                             <input type="text" class="form-control" id="name" name="name">
-                            <div class="invalid-feedback"></div>
+                            <label class="form-control-label">Name</label>
                         </div>
-                        <div class="form-group">
-                            <label for="number">Number:</label>
-                            <input type="text" class="form-control" id="number" name="number">
-                            <div class="invalid-feedback"></div>
+                        <div class="form-group float-label active">
+                            <input type="number" class="form-control" id="number" name="number">
+                            <label class="form-control-label">Number</label>
                         </div>
-                        <div class="form-group">
-                            <label for="network">Network:</label>
+
+                        <div class="form-group float-label active">
                             <select class="form-control" id="network" name="network">
                                 <option value=""></option>
                                 <option value="MTN">MTN</option>
@@ -78,8 +111,12 @@
                                 <option value="GLO">GLO</option>
                                 <option value="9MOBILE">9MOBILE</option>
                             </select>
-                            <div class="invalid-feedback"></div>
+                            <label class="form-control-label">Network</label>
                         </div>
+
+
+
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -89,6 +126,7 @@
             </div>
         </div>
     </div>
+
     <!-- Edit Contact Modal -->
     <div class="modal fade" id="editContactModal" tabindex="-1" role="dialog" aria-labelledby="editContactModalLabel"
         aria-hidden="true">
@@ -104,16 +142,16 @@
                     <div class="modal-body">
                         <ul id="update_error_list"></ul>
                         <input type="hidden" id="contactId" name="contactId">
-                        <div class="form-group">
-                            <label for="name">Name:</label>
+                        <div class="form-group float-label active">
                             <input type="text" class="form-control" id="edit_name" name="edit_name">
+                            <label class="form-control-label">Name</label>
                         </div>
-                        <div class="form-group">
-                            <label for="number">Number:</label>
-                            <input type="text" class="form-control" id="edit_number" name="edit_number">
+                        <div class="form-group float-label active">
+                            <input type="number" class="form-control" id="edit_number" name="edit_number">
+                            <label class="form-control-label">Number</label>
                         </div>
-                        <div class="form-group">
-                            <label for="network">Network:</label>
+
+                        <div class="form-group float-label active">
                             <select class="form-control" id="edit_network" name="edit_network">
                                 <option value=""></option>
                                 <option value="MTN">MTN</option>
@@ -121,6 +159,7 @@
                                 <option value="GLO">GLO</option>
                                 <option value="9MOBILE">9MOBILE</option>
                             </select>
+                            <label class="form-control-label">Network</label>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -132,10 +171,12 @@
         </div>
     </div>
 
-    <!-- Include the script code here -->
 @endsection
 @section('js')
-<script src="/sweetalert.min.js"></script>
+    <script src="/sweetalert.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -147,7 +188,7 @@
                 let formData = new FormData($('#contactForm')[0]);
 
                 spinner =
-                    '<div class="spinner-border" style="height: 15px; width: 15px;" role="status"></div> &nbsp; Submitting . . .'
+                    '<div class="spinner-border" style="height: 15px; width: 15px;" role="status"></div> &nbsp; Please Wait...'
                 $('#saveContactBtn').html(spinner);
                 $('#saveContactBtn').attr("disabled", true);
 
@@ -289,7 +330,7 @@
                             $.each(res.errors, function(key, err) {
                                 $("#update_error_list").append("<li>" + err + "</li>");
                             });
-                           
+
                             $("#updateContactBtn").text("Update");
                             $("#updateContactBtn").attr("disabled", false);
 

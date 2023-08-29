@@ -1,185 +1,161 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" class="h-100">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="generator" content="">
+    <title>ExpressData - Mobile Data </title>
 
+    <!-- manifest meta -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="img/favicon180.png" sizes="180x180">
+    <link rel="icon" href="img/favicon32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="img/favicon16.png" sizes="16x16" type="image/png">
+
+    <!-- Material icons-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- swiper CSS -->
+    <link href="/theme/vendor/swiper/css/swiper.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/theme/css/style.css" rel="stylesheet" id="style">
     <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .card {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-header {
-            background-color: #007bff;
-            color: #fff;
-            text-align: center;
-            font-weight: bold;
-            padding: 10px;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-        }
-
-        .form-control {
-            border-radius: 5px;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
-        .btn-primary:hover {
-            background-color: #0069d9;
-            border-color: #0062cc;
-        }
-
-        .navbar {
-            background-color: #343a40;
-        }
-
-        .navbar-nav .nav-link {
-            color: #fff;
-            margin: 0 10px;
-        }
-
-        .whatsapp-btn {
-            position: fixed;
-            bottom: 70px;
-            right: 20px;
-        }
-
-        .whatsapp-btn .btn {
-            width: 100%;
-            border-radius: 20px;
-            text-align: left;
-            background: linear-gradient(to right, #25D366, #128C7E);
-            color: #fff;
-        }
-
-        .form-group input::placeholder {
-            opacity: 0.7;
-        }
-
-        .form-group input[type="password"] {
-            padding-right: 30px;
-        }
-
-        .password-toggle {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            cursor: pointer;
+        .password-toggle i {
+            background-color: transparent !important;
         }
     </style>
+
 </head>
 
-<body>
-
-    <div class="container-fluid">
-        <div class="row justify-content-center align-items-center" style="height: 93vh;">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">Login to your Account</div>
-                    <div class="card-body">
-                        <form id="login-form">
-                            @csrf
-                            <div class="form-group">
-                                <label for="email_or_phone">Email or Phone</label>
-                                <input type="text" class="form-control" id="email_or_phone" name="email_or_phone"
-                                    placeholder="Enter your email or phone number">
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <div class="input-group">
-                                    <input type="password" class="form-control" id="password" name="password"
-                                        placeholder="Enter your password">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text password-toggle"
-                                            onclick="togglePasswordVisibility()">
-                                            <i class="fa fa-eye"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group form-check">
-                                <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
-                                <label class="form-check-label" for="rememberMe">Remember me</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block">Login</button>
-                        </form>
-                        Don't Have an Account? <a href="{{ route('register') }}">Register Here</a>
+<body class="body-scroll d-flex flex-column h-100 menu-overlay">
+    <!-- screen loader -->
+    <div class="container-fluid h-100 loader-display">
+        <div class="row h-100">
+            <div class="align-self-center col">
+                <div class="logo-loading">
+                    <div class="icon icon-100 mb-4 rounded-circle">
+                        <img src="img/favicon144.png" alt="" class="w-100">
+                    </div>
+                    <h4 class="text-default">ExpressData</h4>
+                    <p class="text-secondary">Mobile data for everyone</p>
+                    <div class="loader-ellipsis">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <form id="login-form">
+        <main class="flex-shrink-0 main has-footer">
+            <header class="header">
+                <div class="row">
+                    <div class="col-auto px-0">
+                        <button class="menu-btn btn btn-40 btn-link back-btn" type="button">
+                            <span class="material-icons">keyboard_arrow_left</span>
+                        </button>
+                    </div>
+                    <div class="text-left col align-self-center">
+                       
+                    </div>
+                    <div class="ml-auto col-auto align-self-center">
+                        <a href="{{ route('register') }}" class="text-white">
+                            Create Account
+                        </a>
+                    </div>
+                </div>
+            </header>
+            
+            @csrf
+            <div class="container h-100 text-white">
+                <div class="row h-100">
+                    <div class="col-12 align-self-center mb-4">
+                        <div class="row justify-content-center">
+                            <div class="col-11 col-sm-7 col-md-6 col-lg-5 col-xl-4">
+                                <h2 class="font-weight-normal mb-5">Login into<br>your account</h2>
+                                <div class="form-group float-label active">
+                                    <input type="text" class="form-control text-white" id="email_or_phone" name="email_or_phone">
+                                    <label class="form-control-label text-white" for="email_or_phone">Email/Phone</label>
+                                </div>
+                                <div class="form-group float-label position-relative input-group">
+                                    <input type="password" class="form-control text-white" id="password" name="password">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text password-toggle" onclick="togglePasswordVisibility()">
+                                            <i class="material-icons">visibility_off</i>
+                                        </span>
+                                    </div>
+                                    <label class="form-control-label text-white">Password</label>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="form-group form-check mb-0">
+                                        <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
+                                        <label class="form-check-label text-white" for="rememberMe">Remember me</label>
+                                    </div>
+                                    <a href="#" class="text-white">Forgot Password?</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
 
-    <nav class="navbar navbar-expand navbar-dark">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">How to Fund</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Useful Codes</a>
-            </li>
-        </ul>
-    </nav>
+        <div class="footer no-bg-shadow py-3">
+            <div class="row justify-content-center">
+                <div class="col">
+                    <button type="submit" class="btn btn-default rounded btn-block">Login</button>
+                </div>
+            </div>
+        </div>
+    </form>
 
-    <a href="https://api.whatsapp.com/send?phone=YOUR_PHONE_NUMBER" class="whatsapp-btn">
-        <button type="button" class="btn btn-success">
-            <i class="fab fa-whatsapp"></i> Contact Us on WhatsApp
-        </button>
-    </a>
-    <!-- Scripts here -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+ 
+
+    <script src="/theme/js/jquery-3.3.1.min.js"></script>
+    <script src="/theme/js/popper.min.js"></script>
+    <script src="/theme/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/theme/js/jquery.cookie.js"></script>
+    <script src="/theme/vendor/swiper/js/swiper.min.js"></script>
+    <script src="/theme/js/main.js"></script>
+    <script src="/theme/js/color-scheme-demo.js"></script>
+    <script src="/theme/js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         function togglePasswordVisibility() {
-            var passwordInput = document.getElementById("password");
-            var passwordToggle = document.querySelector(".password-toggle");
-
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                passwordToggle.innerHTML = '<i class="fa fa-eye-slash"></i>';
+            var passwordField = document.getElementById("password");
+            var passwordToggle = document.querySelector(".password-toggle i");
+            
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                passwordToggle.textContent = "visibility";
             } else {
-                passwordInput.type = "password";
-                passwordToggle.innerHTML = '<i class="fa fa-eye"></i>';
+                passwordField.type = "password";
+                passwordToggle.textContent = "visibility_off";
             }
         }
+    </script>
 
-        var passwordInput = document.getElementById("password");
-        passwordInput.addEventListener("focus", function() {
-            var passwordToggle = document.querySelector(".password-toggle");
-            passwordToggle.style.opacity = "1";
-        });
-
-        passwordInput.addEventListener("blur", function() {
-            var passwordToggle = document.querySelector(".password-toggle");
-            passwordToggle.style.opacity = "0.7";
-        });
-
-
-        $(document).ready(function() {
+        <script>
+           
+    
+           $(document).ready(function() {
             $('#login-form').submit(function(event) {
                 event.preventDefault();
                 var submitButton = $(this).find('button[type="submit"]');
                 submitButton.prop('disabled', true).html(
-                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...'
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Please Wait...'
                 );
 
                 var formData = new FormData(this);
@@ -193,12 +169,25 @@
                         submitButton.prop('disabled', false).text('Login');
 
                         if (response.success) {
-                            toastr.success('Login successful. Redirecting to dashboard...');
-                            setTimeout(function() {
-                                window.location.href = response.redirect_url;
-                            }, 200);
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Login Successful',
+                                text: 'Redirecting to dashboard...',
+                                timer: 2000,
+                                timerProgressBar: true,
+                                showConfirmButton: false,
+                                didOpen: () => {
+                                    setTimeout(() => {
+                                        window.location.href = response.redirect_url;
+                                    }, 500);
+                                }
+                            });
                         } else {
-                            toastr.error('Invalid credentials.');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Invalid Credentials',
+                                text: 'Please check your email/phone and password.',
+                            });
                         }
                     },
                     error: function(xhr, status, error) {
@@ -206,20 +195,29 @@
 
                         var response = xhr.responseJSON;
                         if (response && response.errors && response.errors.login_error) {
-                            toastr.warning(response.errors.login_error[0]);
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Login Error',
+                                text: response.errors.login_error[0]
+                            });
                         } else if (response && response.message) {
-                            toastr.error(response.message);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: response.message
+                            });
                         } else {
-                            toastr.error('An error occurred. Please try again.');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'An Error Occurred',
+                                text: 'Please try again later.'
+                            });
                         }
                     }
                 });
             });
         });
     </script>
-
-
-
 </body>
 
 </html>

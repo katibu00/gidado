@@ -9,7 +9,11 @@ use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
-
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\UsersController;
+use App\Models\ReservedAccount;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,7 +46,7 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
 Route::group(['middleware' => ['auth', 'regular']], function () {
@@ -56,6 +60,17 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
 Route::post('/get-transfers',  [MonnifyController::class, 'getTransfers']);
 
 Route::post('/webhook',  [MonnifyController::class, 'getTransfers']);
+
+Route::get('/add_money', function(){
+    $query = ReservedAccount::where('customer_email', auth()->user()->email)->first();
+
+    if ($query) {
+        $accounts = json_decode($query->accounts, true);
+    } else {
+        $accounts = [];
+    }
+    return view('pages.add_money',compact('accounts'));
+})->name('add_money');
 
 
 
@@ -84,5 +99,38 @@ Route::group(['middleware' => ['auth', 'regular']], function () {
 
     Route::post('/fetch-data-plans', [DataPlansController::class, 'fetchPlans'])->name('fetch-data-plans');
     Route::post('/buy-data-plans', [BuyDataController::class, 'buyData'])->name('buy-data-plans');
+
+    Route::get('/transactions', [TransactionsController::class, 'index'])->name('transactions.index');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+
+
+});
+
+
+Route::group(['prefix' => 'settings', 'middleware' => ['auth', 'admin']], function () {
+
+    Route::get('/monnify_api_key', [SettingsController::class, 'monnifyKeys'])->name('monnify_api_key');
+    Route::post('/monnify_api_key', [SettingsController::class, 'saveMonnify']);
+
+    Route::get('/charges', [SettingsController::class, 'charges'])->name('charges');
+    Route::post('/charges', [SettingsController::class, 'saveCharges']);
+
+
+    Route::get('/pop_up_notification', [SettingsController::class, 'popup'])->name('pop_up_notification');
+    Route::post('/pop_up_notification', [SettingsController::class, 'savePopup']);
+
+
+});
+
+Route::group(['prefix' => 'users', 'middleware' => ['auth', 'admin']], function () {
+   
+    Route::get('/regular', [UsersController::class, 'regular'])->name('regular.index');
+    Route::get('/admins', [UsersController::class, 'admins'])->name('admins.index');
+    Route::post('/manual-funding', [UsersController::class, 'manualFunding'])->name('manual-funding');
+    Route::post('/change-password', [UsersController::class, 'changePassword'])->name('change-password');
+    Route::delete('/{id}',  [UsersController::class, 'destroy'])->name('users.destroy');
+
+    Route::post('/admin/submit',  [UsersController::class, 'storeAdmin'])->name('admin.store');
+
 
 });
